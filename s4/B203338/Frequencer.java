@@ -137,6 +137,7 @@ public class Frequencer implements FrequencerInterface {/*
       return subByteFrequency(0, myTarget.length);
     }
     public int subByteFrequency(int start, int end) {
+
       /* This method be work as follows, but much more efficient
       int spaceLength = mySpace.length;
       int count = 0;
@@ -168,19 +169,48 @@ public class Frequencer implements FrequencerInterface {/*
       return 1;
     }
     private int subByteStartIndex(int start, int end) {
-      for(int i = 0;i<suffixArray.length;i++){
+
+      /*for(int i = 0;i<suffixArray.length;i++){
         if(targetCompare(suffixArray[i],start,end)==0){
+          System.out.println(i);
           return i;
         }
-      }
+      }*/
+      int s= 0;
+      int e=suffixArray.length;
+      do{
+        int c=(s+e)/2;
+        int a=targetCompare(suffixArray[c],start,end);
+        if(a==0){
+          while(targetCompare(suffixArray[--c],start,end)==0);
+          System.out.println(c);
+          return ++c;
+        }
+        else if(a==-1){e=c-1;}
+        else if(a==1){s=c+1;}
+      }while(s<=e);
       return -1;
     }
     private int subByteEndIndex(int start, int end) {
-      for(int i = suffixArray.length-1;i>=0;i--){
+      /*for(int i = suffixArray.length-1;i>=0;i--){
         if(targetCompare(suffixArray[i],start,end)==0){
+          System.out.println(i);
           return i+1;
         }
-      }
+      }*/
+      int s= 0;
+      int e=suffixArray.length;
+      do{
+        int c=(s+e)/2;
+        int a=targetCompare(suffixArray[c],start,end);
+        if(a==0){
+          while(targetCompare(suffixArray[++c],start,end)==0);
+          System.out.println(c);
+          return c;
+        }
+        else if(a==-1){e=c-1;}
+        else if(a==1){s=c+1;}
+      }while(s<=e);
       return -1;
     }
     public static void main(String[] args) {
