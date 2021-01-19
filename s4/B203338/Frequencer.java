@@ -179,10 +179,10 @@ public class Frequencer implements FrequencerInterface {/*
       int e=suffixArray.length-1;
       while(s<=e){
         int c=(s+e)/2;
-        int a=targetCompare(suffixArray[c],start,end);
+        int a=targetCompare(c,start,end);
+        System.out.println(s+" "+c+" "+e+ " "+a);
         if(a==0){
-          for(int i=c;i>=0;i--){if(targetCompare(suffixArray[i],start,end)!=0){c=i;break;}}
-          System.out.println(c+1);
+          for(int i=c;i>=0;i--){System.out.println(i);if(targetCompare(i,start,end)!=0){c=i;break;}}
           return c+1;
         }
         else if(a==-1){e=c-1;}
@@ -201,11 +201,10 @@ public class Frequencer implements FrequencerInterface {/*
       int e=suffixArray.length-1;
       while(s<=e){
         int c=(s+e)/2;
-        int a=targetCompare(suffixArray[c],start,end);
-        System.out.println(s+" "+c+" "+e);
+        int a=targetCompare(c,start,end);
+        System.out.println(s+" "+c+" "+e+" "+a);
         if(a==0){
-          for(int i=c;i<suffixArray.length;i++){if(targetCompare(suffixArray[i],start,end)!=0){c=i;break;}}
-          System.out.println(c);
+          for(int i=c;i<suffixArray.length;i++){System.out.println(i);if(targetCompare(i,start,end)!=0){c=i;break;}}
           return c;
         }
         else if(a==-1){e=c-1;}
