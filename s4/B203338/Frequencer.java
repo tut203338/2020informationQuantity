@@ -155,7 +155,7 @@ public class Frequencer implements FrequencerInterface {/*
       return last1 - first;
     }
     private int targetCompare(int i, int j, int k) {
-      String suffix_i = new String(mySpace);
+      /*String suffix_i = new String(mySpace);
       String target_j_k = new String(myTarget);
       suffix_i = suffix_i.substring(i);
       target_j_k = target_j_k.substring(j,k);
@@ -165,7 +165,17 @@ public class Frequencer implements FrequencerInterface {/*
       else if(suffix_i.length()<target_j_k.length()){
         return -1;
       }
-      else{return 1;}
+      else{return 1;}*/
+      int start_j = j;
+      for(int idx = 0; idx < k - start_j; idx++, j++){
+        if(suffixArray[i] + idx >= mySpace.length)
+          return -1;
+      	if(mySpace[suffixArray[i] + idx] >  myTarget[j])
+    		  return 1;
+        else if(mySpace[suffixArray[i]  + idx] <  myTarget[j])
+          return -1;
+      }
+      return 0;
     }
     private int subByteStartIndex(int start, int end) {
 
@@ -180,10 +190,11 @@ public class Frequencer implements FrequencerInterface {/*
       while(s<=e){
         int c=(s+e)/2;
         int a=targetCompare(c,start,end);
+        System.out.println(targetCompare(3,start,end));
         System.out.println(s+" "+c+" "+e+ " "+a);
         if(a==0){
-          for(int i=c;i>=0;i--){System.out.println(i);if(targetCompare(i,start,end)!=0){c=i;break;}}
-          return c+1;
+          for(int i=c;i>=0;i--){System.out.println(i);if(targetCompare(i,start,end)!=0){return i+1;}}
+          return 0;
         }
         else if(a==-1){e=c-1;}
         else if(a==1){s=c+1;}
@@ -204,8 +215,8 @@ public class Frequencer implements FrequencerInterface {/*
         int a=targetCompare(c,start,end);
         System.out.println(s+" "+c+" "+e+" "+a);
         if(a==0){
-          for(int i=c;i<suffixArray.length;i++){System.out.println(i);if(targetCompare(i,start,end)!=0){c=i;break;}}
-          return c;
+          for(int i=c;i<suffixArray.length;i++){System.out.println(i);if(targetCompare(i,start,end)!=0){return i-1;}}
+          return suffixArray.length-1;
         }
         else if(a==-1){e=c-1;}
         else if(a==1){s=c+1;}
