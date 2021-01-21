@@ -16,7 +16,8 @@ interface FrequencerInterface {  // This interface provides the design for frequ
 */
 
 
-public class Frequencer implements FrequencerInterface {/*
+public class Frequencer implements FrequencerInterface {
+  /*
     // Code to Test, *warning: This code contains intentional problem*
     byte[] myTarget;
     byte[] mySpace;
@@ -137,7 +138,6 @@ public class Frequencer implements FrequencerInterface {/*
       return subByteFrequency(0, myTarget.length);
     }
     public int subByteFrequency(int start, int end) {
-
       /* This method be work as follows, but much more efficient
       int spaceLength = mySpace.length;
       int count = 0;
@@ -149,78 +149,93 @@ public class Frequencer implements FrequencerInterface {/*
       if(abort == false) { count++; }
       }
       */
-
       int first = subByteStartIndex(start, end);
       int last1 = subByteEndIndex(start, end);
       return last1 - first;
     }
     private int targetCompare(int i, int j, int k) {
-      /*String suffix_i = new String(mySpace);
+      String suffix_i = new String(mySpace);
       String target_j_k = new String(myTarget);
       suffix_i = suffix_i.substring(i);
       target_j_k = target_j_k.substring(j,k);
-      if(suffix_i.startsWith(target_j_k)){
-          return 0;
-      }
-      else if(suffix_i.length()<target_j_k.length()){
+      /*if(suffix_i.length()<target_j_k.length()){
         return -1;
       }
-      else{return 1;}*/
-      int start_j = j;
-      for(int idx = 0; idx < k - start_j; idx++, j++){
-        if(suffixArray[i] + idx >= mySpace.length)
-          return -1;
-      	if(mySpace[suffixArray[i] + idx] >  myTarget[j])
-    		  return 1;
-        else if(mySpace[suffixArray[i]  + idx] <  myTarget[j])
-          return -1;
-      }
-      return 0;
-    }
-    private int subByteStartIndex(int start, int end) {
-
-      /*for(int i = 0;i<suffixArray.length;i++){
-        if(targetCompare(suffixArray[i],start,end)==0){
-          System.out.println(i);
-          return i;
-        }
-      }*/
-      int s=0;
-      int e=suffixArray.length-1;
-      while(s<=e){
-        int c=(s+e)/2;
-        int a=targetCompare(c,start,end);
-        System.out.println(targetCompare(3,start,end));
-        System.out.println(s+" "+c+" "+e+ " "+a);
-        if(a==0){
-          for(int i=c;i>=0;i--){System.out.println(i);if(targetCompare(i,start,end)!=0){return i+1;}}
+      else{
+        if(suffix_i.startsWith(target_j_k)){
           return 0;
         }
-        else if(a==-1){e=c-1;}
-        else if(a==1){s=c+1;}
+      }*/
+      if(suffix_i.startsWith(target_j_k)){
+        return 0;
       }
+      else{
+        return suffix_i.compareTo(target_j_k)/Math.abs(suffix_i.compareTo(target_j_k));
+      }
+    }
+    private int subByteStartIndex(int start, int end) {
+      /*for(int i = 0;i<suffixArray.length;i++){
+        if(targetCompare(suffixArray[i],start,end)==0){
+          return i;
+        }
+      }
+      return -1;*/
+      int s = 0;
+      int e = suffixArray.length-1;
+
+      while(s<=e){
+        int m = (s+e)/2;
+        if(targetCompare(suffixArray[m],start,end)==0){
+          //search
+          try{
+            while(targetCompare(suffixArray[--m],start,end)==0);
+            return m+1;
+          }
+          catch(Exception ex){
+            return 0;
+          }
+        }
+        else if(targetCompare(suffixArray[m],start,end)==-1){
+          s=m+1;
+        }
+        else if(targetCompare(suffixArray[m],start,end)==1){
+          e=m-1;
+        }
+      }
+      System.out.println("404");
       return -1;
     }
     private int subByteEndIndex(int start, int end) {
       /*for(int i = suffixArray.length-1;i>=0;i--){
         if(targetCompare(suffixArray[i],start,end)==0){
-          System.out.println(i);
           return i+1;
         }
-      }*/
-      int s=0;
-      int e=suffixArray.length-1;
-      while(s<=e){
-        int c=(s+e)/2;
-        int a=targetCompare(c,start,end);
-        System.out.println(s+" "+c+" "+e+" "+a);
-        if(a==0){
-          for(int i=c;i<suffixArray.length;i++){System.out.println(i);if(targetCompare(i,start,end)!=0){return i-1;}}
-          return suffixArray.length-1;
-        }
-        else if(a==-1){e=c-1;}
-        else if(a==1){s=c+1;}
       }
+      return -1;*/
+      int s = 0;
+      int e = suffixArray.length-1;
+
+      while(s<=e){
+        int m = (s+e)/2;
+        if(targetCompare(suffixArray[m],start,end)==0){
+          //search
+          try{
+            while(targetCompare(suffixArray[m++],start,end)==0);
+            return m-1;
+          }
+          catch(Exception ex){
+            return suffixArray.length;
+          }
+
+        }
+        else if(targetCompare(suffixArray[m],start,end)==-1){
+          s=m+1;
+        }
+        else if(targetCompare(suffixArray[m],start,end)==1){
+          e=m-1;
+        }
+      }
+      System.out.println("404");
       return -1;
     }
     public static void main(String[] args) {
@@ -253,13 +268,17 @@ public class Frequencer implements FrequencerInterface {/*
         System.out.print("Freq = "+ result+" ");
         if(4 == result) { System.out.println("OK"); } else
         {System.out.println("WRONG"); }
-        frequencerObject.setTarget(" Hi".getBytes());
+        frequencerObject.setTarget(" Ho".getBytes());
         result = frequencerObject.frequency();
         if(2 == result) { System.out.println("The Frequency of the starting word    Ho is 2 and it appeared "+result+" times\nOK!"); } else
         {System.out.println("The Frequency of the starting word    Ho is 2 and it appeared "+result+" times\nWRONG"); }
+        frequencerObject.setTarget("o H".getBytes());
+        result = frequencerObject.frequency();
+        if(1 == result) { System.out.println("The Frequency of the starting word o H is 2 and it appeared "+result+" times\nOK!"); } else
+        {System.out.println("The Frequency of the starting word  o H is 1 and it appeared "+result+" times\nWRONG"); }
       }
       catch(Exception e) {
-        System.out.println("STOP");
+        System.out.println("STOP"+e);
       }
     }
 }
