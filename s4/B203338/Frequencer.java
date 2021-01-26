@@ -179,13 +179,19 @@ public class Frequencer implements FrequencerInterface {
         int m = (s+e)/2;
         if(targetCompare(m,start,end)==0){
           //search
-          try{
+          while(--m>=0){
+            if(targetCompare(m,start,end)!=0){
+              return ++m;
+            }
+          }
+          return 0;
+          /*try{
             while(targetCompare(--m,start,end)==0);
             return m+1;
           }
           catch(Exception ex){
             return 0;
-          }
+          }*/
         }
         else if(targetCompare(m,start,end)==-1){
           s=m+1;
@@ -194,7 +200,7 @@ public class Frequencer implements FrequencerInterface {
           e=m-1;
         }
       }
-      System.out.println("error at subByteStartIndex");
+      //System.out.println("error at subByteStartIndex");
       return -1;
     }
     private int subByteEndIndex(int start, int end) {
@@ -211,13 +217,19 @@ public class Frequencer implements FrequencerInterface {
         int m = (s+e)/2;
         if(targetCompare(m,start,end)==0){
           //search
-          try{
+          while(++m<mySpace.length){
+            if(targetCompare(m,start,end)!=0){
+              return m;
+            }
+          }
+          return mySpace.length;
+          /*try{
             while(targetCompare(m++,start,end)==0);
             return m-1;
           }
           catch(Exception ex){
             return suffixArray.length;
-          }
+          }*/
 
         }
         else if(targetCompare(m,start,end)==-1){
@@ -227,7 +239,7 @@ public class Frequencer implements FrequencerInterface {
           e=m-1;
         }
       }
-      System.out.println("error at subByteStartIndex");
+      //System.out.println("error at subByteStartIndex");
       return -1;
     }
     public static void main(String[] args) {
